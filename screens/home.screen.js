@@ -67,7 +67,7 @@ export const HomeScreen = ({ navigation }) => {
     const [selectedId, setSelectedId] = useState(null);
     const [role, setRole] = useState("BM")
     useEffect(() => {
-        setRole("BM")
+        setRole("BMm")
     }, [])
     const renderItem = ({ item }) => {
         const backgroundColor = item.id === selectedId ? "#F4891F" : "black";

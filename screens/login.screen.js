@@ -41,34 +41,34 @@ export class LoginScreen extends Component {
         });
     }
 
-    // handleLogin = async () => {
-    //     setUser(null);
-    //     this.setState({ loading: true });
-    //     // TODO: check with backend API
-    //     const user = await login(this.state);
-    //     if (user instanceof Error) {
-    //         this.setState({ error: "Invalid Credentials" });
-    //         this.setState({ loading: false });
-    //         return;
-    //     }
-    //     await setUser(user);
-    //     const units = await listUnitsAndSubUnits(user.UserId);
-    //     console.log("New", units)
-    //     if (units instanceof Error) {
-    //         Toast.show({
-    //             text: "Error Happened",
-    //         });
-    //         this.setState({ loading: false });
-    //     }
-    //     await setUserUnitsSubUnits(units);
+    handleLogin = async () => {
+        // setUser(null);
+        // this.setState({ loading: true });
+        // // TODO: check with backend API
+        // const user = await login(this.state);
+        // if (user instanceof Error) {
+        //     this.setState({ error: "Invalid Credentials" });
+        //     this.setState({ loading: false });
+        //     return;
+        // }
+        // await setUser(user);
+        // const units = await listUnitsAndSubUnits(user.UserId);
+        // console.log("New", units)
+        // if (units instanceof Error) {
+        //     Toast.show({
+        //         text: "Error Happened",
+        //     });
+        //     this.setState({ loading: false });
+        // }
+        // await setUserUnitsSubUnits(units);
 
-    //     this.setState({ loading: false });
+        // this.setState({ loading: false });
 
-    //     this.props.navigation.reset({
-    //         index: 0,
-    //         routes: [{ name: "Home" }],
-    //     });
-    // };
+        this.props.navigation.reset({
+            index: 0,
+            routes: [{ name: "Home" }],
+        });
+    };
     renderWelcome = () => {
         return <Text style={styles.text}></Text>;
     };
