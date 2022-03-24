@@ -76,7 +76,10 @@ export const HomeScreen = ({ navigation }) => {
         return (
             <Item
                 item={item}
-                onPress={() => setSelectedId(item.id)}
+                onPress={() => {
+                    setSelectedId(item.id)
+                    navigation.navigate(item.navigate)
+                }}
                 backgroundColor={{ backgroundColor }}
                 textColor={{ color }}
             />

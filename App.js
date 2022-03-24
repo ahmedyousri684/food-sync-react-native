@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen, LoginScreen } from "./screens";
+import { HomeScreen, LoginScreen, OpeningQty } from "./screens";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { NativeBaseProvider } from "native-base";
@@ -44,6 +44,7 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name='OpeningQty' component={OpeningQty} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
