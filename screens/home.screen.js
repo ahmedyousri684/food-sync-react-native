@@ -69,6 +69,7 @@ export const HomeScreen = ({ navigation }) => {
     useEffect(() => {
         setRole("BMm")
     }, [])
+
     const renderItem = ({ item }) => {
         const backgroundColor = item.id === selectedId ? "#F4891F" : "black";
         const color = item.id === selectedId ? 'black' : '#F4891F';

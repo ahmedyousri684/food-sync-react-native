@@ -44,7 +44,7 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
-            <Stack.Screen name='OpeningQty' component={OpeningQty} options={{ headerShown: false }} />
+            <Stack.Screen name='OpeningQty' component={OpeningQty} options={{ headerTintColor: "#F4891F" }} />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
