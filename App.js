@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen, LoginScreen, OpeningQty } from "./screens";
+import { HomeScreen, LoginScreen, OpeningQtyScreen, FactoryScreen, TransferScreen, WasteScreen, SalesScreen, ClosingQtyScreen, ReportScreen } from "./screens";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { NativeBaseProvider } from "native-base";
@@ -44,7 +44,13 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
-            <Stack.Screen name='OpeningQty' component={OpeningQty} options={{ headerTintColor: "#F4891F" }} />
+            <Stack.Screen name='OpeningQty' component={OpeningQtyScreen} options={{ headerTintColor: "#F4891F", headerTitle: "Opening Quantities" }} />
+            <Stack.Screen name='factory' component={FactoryScreen} options={{ headerTintColor: "#F4891F", headerTitle: "Factory" }} />
+            <Stack.Screen name='transfer' component={TransferScreen} options={{ headerTintColor: "#F4891F", headerTitle: "Transfer In & Out" }} />
+            <Stack.Screen name='sales' component={SalesScreen} options={{ headerTintColor: "#F4891F", headerTitle: "Sales" }} />
+            <Stack.Screen name='waste' component={WasteScreen} options={{ headerTintColor: "#F4891F", headerTitle: "Waste" }} />
+            <Stack.Screen name='closingQty' component={ClosingQtyScreen} options={{ headerTintColor: "#F4891F", headerTitle: "Closing Quantities" }} />
+            <Stack.Screen name='report' component={ReportScreen} options={{ headerTintColor: "#F4891F", headerTitle: "Consumption Report" }} />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>

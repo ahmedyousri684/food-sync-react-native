@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import { Form } from "../components"
-import { Button, View } from "native-base"
+import { Button, View, Text } from "native-base"
 import { StyleSheet, Dimensions } from "react-native"
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
-export const OpeningQtyScreen = ({ navigation }) => {
+export const TransferScreen = ({ navigation }) => {
     const [data, setData] = useState([
         {
             id: 1,
@@ -54,6 +54,7 @@ export const OpeningQtyScreen = ({ navigation }) => {
             </View>
         </View >
     )
+
 }
 const styles = StyleSheet.create({
     button: {

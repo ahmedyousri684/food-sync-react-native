@@ -29,32 +29,32 @@ const DATA = [
     {
         id: "2",
         title: "Factory",
-        navigate: "Factory"
+        navigate: "factory"
     },
     {
         id: "3",
         title: "Transfer IN & OUT",
-        navigate: "TrsInOut"
+        navigate: "transfer"
     },
     {
         id: "4",
         title: "Sales",
-        navigate: "Sales"
+        navigate: "sales"
     },
     {
         id: "5",
         title: "Waste",
-        navigate: "Waste"
+        navigate: "waste"
     },
     {
         id: "6",
         title: "Closing quantity",
-        navigate: "ClosingQty"
+        navigate: "closingQty"
     },
     {
         id: "7",
         title: "Consumption Report",
-        navigate: "Report"
+        navigate: "report"
     },
 ];
 const Item = ({ item, onPress, backgroundColor, textColor }) => (

@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import { Form } from "../components"
-import { Button, View } from "native-base"
+import { Button, View, Text } from "native-base"
 import { StyleSheet, Dimensions } from "react-native"
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
-export const OpeningQtyScreen = ({ navigation }) => {
+export const ReportScreen = ({ navigation }) => {
     const [data, setData] = useState([
         {
             id: 1,
@@ -41,19 +41,12 @@ export const OpeningQtyScreen = ({ navigation }) => {
     }
     return (
         <View>
-            <Form
-                data={data}
-                modalVisibilty={modalVisibilty}
-                setModalVisibilty={setModalVisibilty}
-                onSubmit={onSubmit}
-            />
-            <View style={(modalVisibilty) ? { backgroundColor: "white", opacity: 0.1 } : null}>
-                <Button _text={{ fontSize: 20 }} style={styles.button} onPress={() => setModalVisibilty(true)}>
-                    Add opening quantity
-                </Button>
-            </View>
+            <Text>
+                zby
+            </Text>
         </View >
     )
+
 }
 const styles = StyleSheet.create({
     button: {
