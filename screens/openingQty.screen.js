@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Form } from "../components"
+import { Form, List } from "../components"
 import { Button, View } from "native-base"
 import { StyleSheet, Dimensions } from "react-native"
 
@@ -10,22 +10,23 @@ export const OpeningQtyScreen = ({ navigation }) => {
     const [data, setData] = useState([
         {
             id: 1,
-            name: " Test1",
-            unit: "Kg",
+            name: "Chicken PCs",
+            unit: "piece",
             Qty: 0,
         }, {
             id: 2,
-            name: "Test2",
-            unit: "gm",
+            name: "Stripes",
+            unit: "Piece",
             Qty: 0,
         },
         {
             id: 3,
-            name: "Test3",
-            unit: "gm",
+            name: "3esh 5 Inch",
+            unit: "Piece",
             Qty: 0,
         }
     ])
+    const [listOfData, setList] = useState(null)
     const [modalVisibilty, setModalVisibilty] = useState(false)
     const newData = data
     const onSubmit = (selectedValue, quantity) => {
@@ -37,6 +38,7 @@ export const OpeningQtyScreen = ({ navigation }) => {
                 val.Qty = quantity
         })
         setData(newData)
+        setList(data)
         console.log("data", newData)
     }
     return (
@@ -52,6 +54,9 @@ export const OpeningQtyScreen = ({ navigation }) => {
                     Add opening quantity
                 </Button>
             </View>
+            <List
+                listOfData={listOfData}
+            />
         </View >
     )
 }
