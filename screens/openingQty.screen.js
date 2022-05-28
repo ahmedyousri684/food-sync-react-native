@@ -24,6 +24,29 @@ export const OpeningQtyScreen = ({ navigation }) => {
             name: "3esh 5 Inch",
             unit: "Piece",
             Qty: 0,
+        },
+        {
+            id: 4,
+            name: "3esh Bun",
+            unit: "piece",
+            Qty: 0,
+        }, {
+            id: 5,
+            name: "Cheadar",
+            unit: "Piece",
+            Qty: 0,
+        },
+        {
+            id: 6,
+            name: "Fries",
+            unit: "Piece",
+            Qty: 0,
+        },
+        {
+            id: 7,
+            name: "Fries",
+            unit: "Piece",
+            Qty: 0,
         }
     ])
     const [listOfData, setList] = useState(null)
@@ -54,9 +77,12 @@ export const OpeningQtyScreen = ({ navigation }) => {
                     Add opening quantity
                 </Button>
             </View>
-            <List
-                listOfData={listOfData}
-            />
+            <View>
+                <List
+                    listOfData={listOfData}
+                    Header={"The Opening Quantities for this month"}
+                />
+            </View>
         </View >
     )
 }

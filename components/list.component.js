@@ -5,12 +5,14 @@ import { FlatList, Dimensions } from "react-native"
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
-const renderedList = (item) => {
+const renderedList = ({ item }) => {
     return (
-        <View style={{ width: screenWidth * 0.9, alignSelf: "center", backgroundColor: "red" }} >
+        <View style={{ width: screenWidth * 0.9, alignSelf: "center", borderRadius: 16, backgroundColor: "#F4891F", padding: 20 }} >
+            <Text style={{ fontSize: 20, color: "white", marginBottom: 20 }}>
+                {item.name},
+            </Text>
             <Text>
-                Product Name: {item.name},
-                Product Qty: {item.Qty}  {item.unit}
+                Quantity: {item.Qty}  {item.unit}
             </Text>
         </View >
     )
@@ -20,15 +22,19 @@ const renderedList = (item) => {
     //  Qty: 0,
 }
 
-export const List = ({ listOfData }) => {
+export const List = ({ listOfData, Header }) => {
     return (
         <View>
-            <Text>
-                List is here
-            </Text>
+            <Text style={{ fontSize: 20 }}>{Header}</Text>
             <FlatList
+                style={{ marginBottom: 80 }}
                 data={listOfData}
-                renderItem={({ item }) => renderedList(item)}
+                renderItem={renderedList}
+                ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
+                extraData={listOfData}
+                ListEmptyComponent={() => <Text>Please select Opening quantites for your raw material for this month</Text>}
+                keyExtractor={(item) => item.id.toString()}
+                scrollEnabled={true}
             />
         </View>
     )
