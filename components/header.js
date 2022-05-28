@@ -41,7 +41,7 @@ export class HeaderComponent extends React.Component<{
                     <TouchableOpacity
                         style={styles.rightComponent}
                         onPress={() => {
-                            this.props.navigation.navigate("Settings");
+                            this.props.navigation.navigate("settings");
                         }}
                     >
                         {this.props.hasMenu && (

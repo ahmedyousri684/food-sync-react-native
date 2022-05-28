@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen, LoginScreen, OpeningQtyScreen, FactoryScreen, TransferScreen, WasteScreen, SalesScreen, ClosingQtyScreen, ReportScreen } from "./screens";
+import { HomeScreen, LoginScreen, OpeningQtyScreen, FactoryScreen, TransferScreen, WasteScreen, SalesScreen, ClosingQtyScreen, ReportScreen, SettingsScreen } from "./screens";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { NativeBaseProvider } from "native-base";
@@ -51,6 +51,8 @@ export default function App() {
             <Stack.Screen name='waste' component={WasteScreen} options={{ headerTintColor: "#F4891F", headerTitle: "Waste" }} />
             <Stack.Screen name='closingQty' component={ClosingQtyScreen} options={{ headerTintColor: "#F4891F", headerTitle: "Closing Quantities" }} />
             <Stack.Screen name='report' component={ReportScreen} options={{ headerTintColor: "#F4891F", headerTitle: "Consumption Report" }} />
+            <Stack.Screen name='settings' component={SettingsScreen} options={{ headerTintColor: "#F4891F", headerTitle: "Settings" }} />
+
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>

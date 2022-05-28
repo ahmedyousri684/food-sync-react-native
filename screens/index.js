@@ -8,3 +8,4 @@ export * from "./sales.screen";
 export * from "./transfers.screen";
 export * from "./report.screen";
 export * from "./closingQty.screen";
+export * from "./setteings.screen";
