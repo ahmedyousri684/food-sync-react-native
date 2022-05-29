@@ -1,43 +1,41 @@
-import React, { useState } from "react"
-import { Form } from "../components"
+import React, { useState, useEffect } from "react"
+import { Form, List } from "../components"
 import { Button, View, Text } from "native-base"
 import { StyleSheet, Dimensions } from "react-native"
-
+import { getBrandProducts } from "../services"
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 export const SalesScreen = ({ navigation }) => {
-    const [data, setData] = useState([
-        {
-            id: 1,
-            name: " Test1",
-            unit: "Kg",
-            Qty: 0,
-        }, {
-            id: 2,
-            name: "Test2",
-            unit: "gm",
-            Qty: 0,
-        },
-        {
-            id: 3,
-            name: "Test3",
-            unit: "gm",
-            Qty: 0,
-        }
-    ])
+    const [isLoading, setLoading] = useState(false);
+    const [data, setData] = useState([{
+        "Qty": 0,
+        "id": 3,
+        "name": "Test3",
+        "unit": "gm",
+    }]);
+    const [listOfData, setList] = useState([])
+    const [selectedMaterial, setSelectedMaterial] = useState("");
+    const [selectedQty, setSelectedQty] = useState();
+    const [date, setDate] = useState(new Date());
     const [modalVisibilty, setModalVisibilty] = useState(false)
-    const newData = data
-    const onSubmit = (selectedValue, quantity) => {
-        console.log(selectedValue, quantity)
+
+    useEffect(() => {
+        async function fetchData() {
+            const products = await getBrandProducts(3)
+            setData(products)
+        }
+        setLoading(true);
+        fetchData();
+    }, []);
+
+
+    const onSubmit = (selectedValue, quantity, date) => {
+        console.log(selectedValue, quantity, date, "sss")
+        setSelectedMaterial(selectedValue);
+        setSelectedQty(quantity);
+        setDate(date);
         setModalVisibilty(false)
-        // var x = data.filter( s => s.id == selectedValue )[0].Qty = quantity
-        newData.map(val => {
-            if (val.id == selectedValue)
-                val.Qty = quantity
-        })
-        setData(newData)
-        console.log("data", newData)
     }
     return (
         <View>
@@ -49,8 +47,15 @@ export const SalesScreen = ({ navigation }) => {
             />
             <View style={(modalVisibilty) ? { backgroundColor: "white", opacity: 0.1 } : null}>
                 <Button _text={{ fontSize: 20 }} style={styles.button} onPress={() => setModalVisibilty(true)}>
-                    Add opening quantity
+                    Add Products Sales
                 </Button>
+            </View>
+            <View>
+                <List
+                    listOfData={listOfData}
+                    Header={"The Product sales for this month"}
+                    description={"Please select product sales for this month"}
+                />
             </View>
         </View >
     )

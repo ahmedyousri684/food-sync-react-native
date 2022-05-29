@@ -66,8 +66,14 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 export const HomeScreen = ({ navigation }) => {
     const [selectedId, setSelectedId] = useState(null);
     const [role, setRole] = useState("BM")
+    const [user, setUser] = useState({});
     useEffect(() => {
         setRole("BMm")
+        const user_params = navigation.getState().routes[0];
+        console.log(user_params, "here")
+        if (user_params) {
+            setUser(user_params.params.user)
+        }
     }, [])
 
     const renderItem = ({ item }) => {
@@ -79,7 +85,7 @@ export const HomeScreen = ({ navigation }) => {
                 item={item}
                 onPress={() => {
                     setSelectedId(item.id)
-                    navigation.navigate(item.navigate)
+                    navigation.navigate(item.navigate, { user })
                 }}
                 backgroundColor={{ backgroundColor }}
                 textColor={{ color }}

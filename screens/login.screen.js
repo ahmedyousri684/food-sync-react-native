@@ -19,6 +19,7 @@ import { LoginComponent } from "../components/login.component";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import { Login } from "../services"
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
@@ -43,30 +44,25 @@ export class LoginScreen extends Component {
 
     handleLogin = async () => {
         // setUser(null);
-        // this.setState({ loading: true });
-        // // TODO: check with backend API
-        // const user = await login(this.state);
-        // if (user instanceof Error) {
-        //     this.setState({ error: "Invalid Credentials" });
-        //     this.setState({ loading: false });
-        //     return;
-        // }
-        // await setUser(user);
-        // const units = await listUnitsAndSubUnits(user.UserId);
-        // console.log("New", units)
-        // if (units instanceof Error) {
-        //     Toast.show({
-        //         text: "Error Happened",
-        //     });
-        //     this.setState({ loading: false });
-        // }
-        // await setUserUnitsSubUnits(units);
+        this.setState({ loading: true });
+        // TODO: check with backend API
+        let userModel = {
+            email: this.state.username,
+            password: this.state.password
+        }
+        const user = await Login(userModel);
+        console.log(user)
+        if (user instanceof Error) {
+            this.setState({ error: "Invalid Credentials" });
+            this.setState({ loading: false });
+            return;
+        }
 
-        // this.setState({ loading: false });
+        this.setState({ loading: false });
 
         this.props.navigation.reset({
             index: 0,
-            routes: [{ name: "Home" }],
+            routes: [{ name: "Home", params: { user } }]
         });
     };
     renderWelcome = () => {
@@ -120,7 +116,7 @@ export class LoginScreen extends Component {
 
                         {this.state.loading ? (
                             <ActivityIndicator
-                                color={"#67308c"}
+                                color={"#F4891F"}
                                 size={"large"}
                                 style={{ margin: 20, alignSelf: "center" }}
                             />

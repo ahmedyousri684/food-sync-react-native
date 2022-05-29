@@ -1,46 +1,81 @@
-import React, { useState } from "react"
-import { Form } from "../components"
+import React, { useState, useEffect } from "react"
+import { Form, List } from "../components"
 import { Button, View, Text } from "native-base"
-import { StyleSheet, Dimensions } from "react-native"
-
+import { StyleSheet, Dimensions, ActivityIndicator, RefreshControl, SafeAreaView, ScrollView } from "react-native"
+import { getRawMaterials, AddDailyOperation, GetDailyOperations } from "../services"
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 export const FactoryScreen = ({ navigation }) => {
-    const [data, setData] = useState([
-        {
-            id: 1,
-            name: " Test1",
-            unit: "Kg",
-            Qty: 0,
-        }, {
-            id: 2,
-            name: "Test2",
-            unit: "gm",
-            Qty: 0,
-        },
-        {
-            id: 3,
-            name: "Test3",
-            unit: "gm",
-            Qty: 0,
-        }
-    ])
+    console.log()
+    const [isLoading, setLoading] = useState(false);
+    const [data, setData] = useState([{
+        "Qty": 0,
+        "id": 3,
+        "name": "Test3",
+        "unit": "gm",
+    }]);
+    const [user, setUser] = useState({});
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [dailyOperations, setDailyOperations] = useState([]);
+    const [listOfData, setList] = useState([]);
+    const [selectedMaterial, setSelectedMaterial] = useState("");
+    const [selectedQty, setSelectedQty] = useState();
+    const [date, setDate] = useState("");
     const [modalVisibilty, setModalVisibilty] = useState(false)
-    const newData = data
-    const onSubmit = (selectedValue, quantity) => {
-        console.log(selectedValue, quantity)
+
+    useEffect(() => {
+        async function fetchData() {
+            const nav_routes = navigation.getState().routes[0];
+            if (nav_routes) {
+                setUser(nav_routes.params.user)
+            }
+            const rawMaterials = await getRawMaterials(user.brandId);
+            setData(rawMaterials)
+            var dailyModel = {
+                branchId: user.branchId,
+                date: new Date(),
+                qty: 0,
+                rawMaterialId: 0,
+                type: "FactoryRecivingQty"
+            };
+            const res_dailyOperations = await GetDailyOperations(dailyModel);
+            console.log(res_dailyOperations)
+            setDailyOperations(res_dailyOperations)
+            setList(res_dailyOperations)
+            console.log(listOfData.length, "lengggth")
+            setLoading(false)
+        }
+        setLoading(true);
+        fetchData();
+    }, [refreshing]);
+
+
+    const onSubmit = async (selectedValue, quantity, sub_date) => {
+        setSelectedMaterial(selectedValue);
+        setSelectedQty(quantity);
+        setDate(date);
+        var dailyModel = {
+            branchId: user.branchId,
+            date: sub_date,
+            qty: quantity,
+            rawMaterialId: selectedValue,
+            type: "FactoryRecivingQty"
+        };
+        console.log(dailyModel, "sss")
+        const response = await AddDailyOperation(dailyModel);
+        console.log(response)
         setModalVisibilty(false)
-        // var x = data.filter( s => s.id == selectedValue )[0].Qty = quantity
-        newData.map(val => {
-            if (val.id == selectedValue)
-                val.Qty = quantity
-        })
-        setData(newData)
-        console.log("data", newData)
     }
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
     return (
-        <View>
+        <SafeAreaView>
             <Form
                 data={data}
                 modalVisibilty={modalVisibilty}
@@ -49,10 +84,23 @@ export const FactoryScreen = ({ navigation }) => {
             />
             <View style={(modalVisibilty) ? { backgroundColor: "white", opacity: 0.1 } : null}>
                 <Button _text={{ fontSize: 20 }} style={styles.button} onPress={() => setModalVisibilty(true)}>
-                    Add opening quantity
+                    Add factory receiving
                 </Button>
             </View>
-        </View >
+            <View>
+                <List
+                    listOfData={listOfData}
+                    Header={"The factory recieving quantities for this month"}
+                    description={"Please select factory recieving quantites for your raw material for this month"}
+                    refresh_control={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                />
+            </View>
+        </SafeAreaView >
     )
 
 }

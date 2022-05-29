@@ -12,6 +12,8 @@ export const Form = (props) => {
     // const data = props.data.map((item, index) => () < Select.Item label = { item.name } value = { item.id } /> ))
     const [selctedValue, SetSelectedValue] = useState(0)
     const [unit, setUnit] = useState("")
+    const [type, setType] = useState("")
+
     const [selctedQty, setSelctedQty] = useState(0.0)
     const [date, setDate] = useState(new Date())
     const [show, setShow] = useState(false);
@@ -49,7 +51,7 @@ export const Form = (props) => {
                         </Pressable>
                     </View>
                     <Select
-                        placeholder="Mode of payment"
+                        placeholder="Products"
                         selectedValue={selctedValue}
                         width={screenWidth * 0.5}
                         onValueChange={(itemValue) => {
@@ -70,6 +72,24 @@ export const Form = (props) => {
                             {unit}
                         </Text>
                     </View>
+                    {props.isTransfer ?
+                        <View>
+                            <Select
+                                placeholder="Type"
+                                selectedValue={type}
+                                width={screenWidth * 0.3}
+                                onValueChange={(itemValue) => {
+                                    setType(itemValue)
+                                }}
+                                dropdownIcon={
+                                    <Entypo name="chevron-down" size={20} color="lightgray" />
+                                }
+                            >
+                                <Select.Item label="Transfer IN" value="TrsIn" />
+                                <Select.Item label="Transfer OUT" value="TrsOut" />
+                            </Select>
+                        </View>
+                        : null}
                     <TouchableOpacity style={{ borderWidth: 1, borderColor: '#F4891F', alignSelf: 'center', marginBottom: screenWidth * 0.09 }} onPress={() => setShow(!show)} >
                         <Text style={{ fontSize: screenWidth * 0.05 }}>
                             Date: {date ? date.getDate() : null}-{date ? date.getMonth() + 1 : null}-{date ? date.getFullYear() : null}
@@ -79,7 +99,9 @@ export const Form = (props) => {
                         <DateTimePicker value={date} mode="date" onChange={handleDate} />
                         :
                         null}
-                    <Button style={styles.submitButton} onPress={() => props.onSubmit(selctedValue, selctedQty)} >
+
+
+                    <Button style={styles.submitButton} onPress={() => props.onSubmit(selctedValue, selctedQty, date, type)} >
                         Submit
                     </Button>
                 </View>
