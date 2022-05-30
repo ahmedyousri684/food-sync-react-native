@@ -7,7 +7,6 @@ const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 export const WasteScreen = ({ navigation }) => {
-    console.log()
     const [isLoading, setLoading] = useState(false);
     const [data, setData] = useState([{
         "Qty": 0,

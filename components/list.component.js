@@ -21,14 +21,36 @@ const renderedList = ({ item }) => {
     )
 }
 
-export const List = ({ listOfData, Header, description, refresh_control }) => {
+const renderedSalesList = ({ item }) => {
+    return (
+        <View style={{ width: screenWidth, alignSelf: "center", borderRadius: 1, backgroundColor: "#F4891F", padding: 20 }} >
+            <Text style={{ fontSize: 12, color: "black", marginBottom: 12 }}>
+                {item.saleTime},
+            </Text>
+            {item.products.map((product) => {
+                return (
+                    <View style={{ marginBottom: 15 }}>
+                        <Text style={{ fontSize: 20, color: "white" }}>
+                            {product.name},
+                        </Text>
+                        <Text>
+                            Quantity: {product.qty}
+                        </Text>
+                    </View>
+                )
+            })}
+        </View >
+    )
+}
+export const List = ({ listOfData, Header, description, refresh_control, sales }) => {
+    console.log(sales, "sales flag", listOfData)
     return (
         <View>
             <Text style={{ fontSize: 20 }}>{Header}</Text>
             <FlatList
                 style={{ marginBottom: screenWidth * 0.9 }}
                 data={listOfData}
-                renderItem={renderedList}
+                renderItem={sales ? renderedSalesList : renderedList}
                 ItemSeparatorComponent={() => <View style={{ height: screenWidth * 0.02 }} />}
                 extraData={listOfData}
                 ListEmptyComponent={() => <Text>{description}</Text>}
