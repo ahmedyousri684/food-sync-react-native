@@ -3,3 +3,4 @@ export * from "./header";
 export * from "./form";
 export * from "./list.component";
 export * from "./sale-form.component";
+export * from "./consumption-list.component";
