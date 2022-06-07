@@ -8,6 +8,7 @@ const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 export const Form = (props) => {
+    console.log("errroorrrr", props)
     const data = props.data.map((item, index) => <Select.Item key={item} label={item.name} value={item.id} />)
     // const data = props.data.map((item, index) => () < Select.Item label = { item.name } value = { item.id } /> ))
     const [selctedValue, SetSelectedValue] = useState(0)
@@ -17,6 +18,11 @@ export const Form = (props) => {
     const [selctedQty, setSelctedQty] = useState(0.0)
     const [date, setDate] = useState(new Date())
     const [show, setShow] = useState(false);
+
+    useEffect(() => {
+        setShow(false)
+    }, [props.modalVisibilty])
+
     const handleDate = (e, date) => {
         console.log("here", date, e)
         if (date != undefined) {

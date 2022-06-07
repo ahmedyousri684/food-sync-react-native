@@ -11,7 +11,7 @@ export async function Login(userModel) {
                 "Content-type": "application/json"
             },
         });
-        console.log(response)
+        //onsole.log(response)
         const json = await response.json();
         return json;
     } catch (error) {

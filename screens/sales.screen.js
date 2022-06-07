@@ -24,28 +24,46 @@ export const SalesScreen = ({ navigation }) => {
     const [modalVisibilty, setModalVisibilty] = useState(false)
     const [selectedProducts, setSelectedProducts] = useState([]);
 
-    useEffect(() => {
-        async function fetchData() {
-            const nav_routes = await navigation.getState().routes[0];
-            setUser(nav_routes.params.user)
-            console.log(user.brandId, "user")
-            const brandProducts = await getBrandProducts(3);
-            console.log(brandProducts)
-            setData(brandProducts)
-            var saleModel = {
-                branchId: nav_routes.params.user.branchId,
-                salesDate: new Date(),
-            };
-            console.log("before", saleModel)
-            const res_sales = await GetSales(saleModel);
-            console.log(res_sales)
-            setSales(res_sales)
-            setList(res_sales)
-            console.log(listOfData.length, "lengggth")
-            setLoading(false)
-        }
+    useEffect(async () => {
         setLoading(true);
-        fetchData();
+        const nav_routes = await navigation.getState().routes[0];
+        setUser(nav_routes.params.user)
+        console.log(user.brandId, "user")
+        const brandProducts = await getBrandProducts(3);
+        console.log(brandProducts)
+        setData(brandProducts)
+        var saleModel = {
+            branchId: nav_routes.params.user.branchId,
+            salesDate: new Date(),
+        };
+        console.log("before", saleModel)
+        const res_sales = await GetSales(saleModel);
+        console.log(res_sales)
+        setSales(res_sales)
+        setList(res_sales)
+        console.log(listOfData.length, "lengggth")
+        setLoading(false)
+    }, [])
+
+    useEffect(async () => {
+        console.log("refreshing", refreshing)
+        const nav_routes = await navigation.getState().routes[0];
+        setUser(nav_routes.params.user)
+        console.log(user.brandId, "user")
+        const brandProducts = await getBrandProducts(3);
+        console.log(brandProducts)
+        setData(brandProducts)
+        var saleModel = {
+            branchId: nav_routes.params.user.branchId,
+            salesDate: new Date(),
+        };
+        console.log("before", saleModel)
+        const res_sales = await GetSales(saleModel);
+        console.log(res_sales)
+        setSales(res_sales)
+        setList(res_sales)
+        console.log(listOfData.length, "lengggth")
+
     }, [refreshing]);
 
 
@@ -72,10 +90,12 @@ export const SalesScreen = ({ navigation }) => {
         wait(2000).then(() => setRefreshing(false));
     }, []);
     console.log("fteched", data)
+    console.log("Loading", isLoading)
+
     return (
         <View>
             {isLoading ?
-                null
+                <ActivityIndicator />
                 :
                 <SaleForm
                     data={data}
@@ -90,20 +110,24 @@ export const SalesScreen = ({ navigation }) => {
                     Add Products Sales
                 </Button>
             </View>
-            <View>
-                <List
-                    listOfData={listOfData}
-                    Header={"The Product sales for this month"}
-                    description={"Please select product sales for this month"}
-                    refresh_control={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                        />
-                    }
-                    sales={true}
-                />
-            </View>
+            {isLoading ? (<ActivityIndicator />) : (
+
+                <View>
+                    <List
+                        listOfData={listOfData}
+                        Header={"The Product sales for this month"}
+                        description={"Please select product sales for this month"}
+                        refresh_control={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                            />
+                        }
+                        sales={true}
+                    />
+                </View>
+            )}
+
         </View >
     )
 

@@ -9,5 +9,6 @@ export default {
     GET_DAILY_OPERATIONS: `${baseUrl}/api/DailyOperations/GetDailyOperation`,
     ADD_SALE: `${baseUrl}/api/Sales/AddSale`,
     GET_SALES: `${baseUrl}/api/Sales/GetSales`,
-
+    ADD_OPENINGCLOSING: `${baseUrl}/api/OpenningClosing/AddOpenningClosing`,
+    GET_OPENINGCLOSING: `${baseUrl}/api/OpenningClosing/GetOpenningClosing`,
 };
