@@ -11,4 +11,5 @@ export default {
     GET_SALES: `${baseUrl}/api/Sales/GetSales`,
     ADD_OPENINGCLOSING: `${baseUrl}/api/OpenningClosing/AddOpenningClosing`,
     GET_OPENINGCLOSING: `${baseUrl}/api/OpenningClosing/GetOpenningClosing`,
+    CALCULATE_CONSUMBTION: `${baseUrl}/api/Consumbtion/CalculateConsumbtion`,
 };

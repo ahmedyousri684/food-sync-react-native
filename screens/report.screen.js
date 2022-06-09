@@ -3,6 +3,7 @@ import { ConsumptionListComponent, Form } from "../components";
 import { Button, View, Text, Select } from "native-base";
 import { StyleSheet, Dimensions, ActivityIndicator, RefreshControl, SafeAreaView, ScrollView } from "react-native"
 import { AntDesign, Entypo } from '@expo/vector-icons';
+import { CalculateConsumbtion } from "../services"
 
 import { getRawMaterials, AddDailyOperation, GetDailyOperations } from "../services"
 const screenWidth = Dimensions.get("window").width;
@@ -11,67 +12,19 @@ const screenHeight = Dimensions.get("window").height;
 export const ReportScreen = ({ navigation }) => {
     const [isLoading, setLoading] = useState(false);
     const [user, setUser] = useState({});
-    const [listOfData, setList] = useState([
-        {
-            id: 1,
-            rawMaterial: {
-                "id": 1,
-                "name": "3esh Bun",
-                "unit": "piece"
-            },
-            consumption: 200
-        },
-        {
-            id: 2,
-            rawMaterial: {
-                "id": 2,
-                "name": "3esh 5 inch",
-                "unit": "piece"
-            },
-            consumption: 200
-        },
-        {
-            id: 3,
-            rawMaterial: {
-                "id": 3,
-                "name": "Fries",
-                "unit": "gram"
-            },
-            consumption: 200
-        },
-        {
-            id: 4,
-            rawMaterial: {
-                "id": 4,
-                "name": "Stripes",
-                "unit": "piece"
-            },
-            consumption: -200
-        },
-        {
-            id: 5,
-            rawMaterial: {
-                "id": 5,
-                "name": "Chicken Piece",
-                "unit": "piece"
-            },
-            consumption: 200
-        }
-
-    ])
+    const [listOfData, setList] = useState()
     const [month, setMonth] = useState("Jan");
 
     const onSubmit = async () => {
         setLoading(true)
         const nav_routes = await navigation.getState().routes[0];
         var reportModel = {
-            branchId: nav_routes.params.user.branchId,
             month: month,
+            branchId: nav_routes.params.user.branchId,
         };
-        console.log(reportModel, "sss")
-        // const response = await AddDailyOperation(dailyModel);
-        // console.log(response)
-        // setList(response.data)
+        const consumbtions = await CalculateConsumbtion(reportModel)
+        console.log(consumbtions, "consumbtions")
+        setList(consumbtions)
         setLoading(false)
     }
     return (
@@ -113,13 +66,13 @@ export const ReportScreen = ({ navigation }) => {
                     Calculate
                 </Button>
             </View>
-            <View>
+            {isLoading ? (<ActivityIndicator animating color={"#F4891F"} size={"large"} />) : (<View>
                 <ConsumptionListComponent
                     listOfData={listOfData}
-                    Header={"The transfering quantities for this month"}
-                    description={"Please select transfering  quantites for your raw material for this month"}
+                    Header={"Consumbtion Report"}
+                    description={"Please select month and click calculate"}
                 />
-            </View>
+            </View>)}
         </View >
     )
 

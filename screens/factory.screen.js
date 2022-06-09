@@ -50,30 +50,26 @@ export const FactoryScreen = ({ navigation }) => {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        async function fetchData() {
-            const nav_routes = navigation.getState().routes[0];
-            if (nav_routes) {
-                setUser(nav_routes.params.user)
-            }
-            // const rawMaterials = await getRawMaterials(user.brandId);
-            // setData(rawMaterials)
-            var dailyModel = {
-                branchId: user.branchId,
-                date: new Date(),
-                qty: 0,
-                rawMaterialId: 0,
-                type: "FactoryRecivingQty"
-            };
-            const res_dailyOperations = await GetDailyOperations(dailyModel);
-            console.log(res_dailyOperations)
-            setDailyOperations(res_dailyOperations)
-            setList(res_dailyOperations)
-            console.log(listOfData.length, "lengggth")
-            setLoading(false)
-        }
-        setLoading(true);
-        fetchData();
+    useEffect(async () => {
+        // const nav_routes = navigation.getState().routes[0];
+        // if (nav_routes) {
+        //     setUser(nav_routes.params.user)
+        // }
+        // const rawMaterials = await getRawMaterials(user.brandId);
+        // setData(rawMaterials)
+        var dailyModel = {
+            branchId: user.branchId,
+            date: new Date(),
+            qty: 0,
+            rawMaterialId: 0,
+            type: "FactoryRecivingQty"
+        };
+        const res_dailyOperations = await GetDailyOperations(dailyModel);
+        console.log(res_dailyOperations)
+        setDailyOperations(res_dailyOperations)
+        setList(res_dailyOperations)
+        console.log(listOfData.length, "lengggth")
+        setLoading(false)
     }, [refreshing]);
 
 
