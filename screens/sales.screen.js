@@ -28,8 +28,8 @@ export const SalesScreen = ({ navigation }) => {
         setLoading(true);
         const nav_routes = await navigation.getState().routes[0];
         setUser(nav_routes.params.user)
-        console.log(user.brandId, "user")
-        const brandProducts = await getBrandProducts(3);
+        //console.log(user.brandId, "user")
+        const brandProducts = await getBrandProducts(nav_routes.params.user.brandId);
         console.log(brandProducts)
         setData(brandProducts)
         var saleModel = {
@@ -49,10 +49,10 @@ export const SalesScreen = ({ navigation }) => {
         console.log("refreshing", refreshing)
         const nav_routes = await navigation.getState().routes[0];
         setUser(nav_routes.params.user)
-        console.log(user.brandId, "user")
-        const brandProducts = await getBrandProducts(3);
-        console.log(brandProducts)
-        setData(brandProducts)
+        //console.log(user.brandId, "user")
+        // const brandProducts = await getBrandProducts(3);
+        // console.log(brandProducts)
+        // setData(brandProducts)
         var saleModel = {
             branchId: nav_routes.params.user.branchId,
             salesDate: new Date(),
@@ -110,7 +110,7 @@ export const SalesScreen = ({ navigation }) => {
                     Add Products Sales
                 </Button>
             </View>
-            {isLoading ? (<ActivityIndicator />) : (
+            {isLoading ? (<ActivityIndicator animating color={"#F4891F"} size={"large"} />) : (
 
                 <View>
                     <List

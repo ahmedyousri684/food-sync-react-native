@@ -23,30 +23,48 @@ export const WasteScreen = ({ navigation }) => {
     const [date, setDate] = useState("");
     const [modalVisibilty, setModalVisibilty] = useState(false)
 
-    useEffect(() => {
-        async function fetchData() {
-            const nav_routes = navigation.getState().routes[0];
-            if (nav_routes) {
-                setUser(nav_routes.params.user)
-            }
-            const rawMaterials = await getRawMaterials(user.brandId);
-            setData(rawMaterials)
-            var dailyModel = {
-                branchId: user.branchId,
-                date: new Date(),
-                qty: 0,
-                rawMaterialId: 0,
-                type: "Waste"
-            };
-            const res_dailyOperations = await GetDailyOperations(dailyModel);
-            console.log(res_dailyOperations)
-            setDailyOperations(res_dailyOperations)
-            setList(res_dailyOperations)
-            console.log(listOfData.length, "lengggth")
-            setLoading(false)
-        }
+    useEffect(async () => {
         setLoading(true);
-        fetchData();
+        const nav_routes = navigation.getState().routes[0];
+        if (nav_routes) {
+            setUser(nav_routes.params.user)
+        }
+        const rawMaterials = await getRawMaterials(nav_routes.params.user.brandId);
+        setData(rawMaterials)
+        var dailyModel = {
+            branchId: nav_routes.params.user.branchId,
+            date: new Date(),
+            qty: 0,
+            rawMaterialId: 0,
+            type: "Waste"
+        };
+        const res_dailyOperations = await GetDailyOperations(dailyModel);
+        console.log(res_dailyOperations)
+        setDailyOperations(res_dailyOperations)
+        setList(res_dailyOperations)
+        console.log(listOfData.length, "lengggth")
+        setLoading(false)
+    }, []);
+
+    useEffect(async () => {
+        // const nav_routes = navigation.getState().routes[0];
+        // if (nav_routes) {
+        //     setUser(nav_routes.params.user)
+        // }
+        // const rawMaterials = await getRawMaterials(user.brandId);
+        // setData(rawMaterials)
+        var dailyModel = {
+            branchId: user.branchId,
+            date: new Date(),
+            qty: 0,
+            rawMaterialId: 0,
+            type: "Waste"
+        };
+        const res_dailyOperations = await GetDailyOperations(dailyModel);
+        console.log(res_dailyOperations)
+        setDailyOperations(res_dailyOperations)
+        setList(res_dailyOperations)
+        console.log(listOfData.length, "lengggth")
     }, [refreshing]);
 
 
@@ -86,7 +104,7 @@ export const WasteScreen = ({ navigation }) => {
                     Add Waste quantities
                 </Button>
             </View>
-            <View>
+            {isLoading ? (<ActivityIndicator animating color={"#F4891F"} size={"large"} />) : (<View>
                 <List
                     listOfData={listOfData}
                     Header={"The waste quantities for this month"}
@@ -98,7 +116,7 @@ export const WasteScreen = ({ navigation }) => {
                         />
                     }
                 />
-            </View>
+            </View>)}
         </SafeAreaView >
     )
 

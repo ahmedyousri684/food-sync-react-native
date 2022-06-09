@@ -26,29 +26,29 @@ export const OpeningQtyScreen = ({ navigation }) => {
 
     const monthSpliter = (month) => {
         switch (month) {
-            case 1:
-                return "Jan"
-            case 2:
-                return "Feb"
-            case 3:
-                return "Mar"
-            case 4:
-                return "Apr"
-            case 5:
-                return "May"
-            case 6:
-                return "Jun"
-            case 7:
-                return "Jul"
-            case 8:
-                return "Aug"
-            case 9:
-                return "Sep"
-            case 10:
-                return "Oct"
-            case 11:
-                return "Nov"
             case 12:
+                return "Jan"
+            case 1:
+                return "Feb"
+            case 2:
+                return "Mar"
+            case 3:
+                return "Apr"
+            case 4:
+                return "May"
+            case 5:
+                return "Jun"
+            case 6:
+                return "Jul"
+            case 7:
+                return "Aug"
+            case 8:
+                return "Sep"
+            case 9:
+                return "Oct"
+            case 10:
+                return "Nov"
+            case 11:
                 return "Dec"
 
         }
@@ -152,7 +152,7 @@ export const OpeningQtyScreen = ({ navigation }) => {
                     Add opening quantity
                 </Button>
             </View>
-            {(isLoading ? (<ActivityIndicator animating color={"#F4891F"} size={"large"} />) : (<View>
+            {isLoading ? (<ActivityIndicator animating color={"#F4891F"} size={"large"} />) : (<View>
                 <List
                     listOfData={listOfData}
                     Header={"The Opening Quantities for this month"}
@@ -164,7 +164,7 @@ export const OpeningQtyScreen = ({ navigation }) => {
                         />
                     }
                 />
-            </View>))}
+            </View>)}
         </View >
     )
 

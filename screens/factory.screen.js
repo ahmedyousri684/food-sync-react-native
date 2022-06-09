@@ -30,8 +30,34 @@ export const FactoryScreen = ({ navigation }) => {
             if (nav_routes) {
                 setUser(nav_routes.params.user)
             }
-            const rawMaterials = await getRawMaterials(user.brandId);
+            const rawMaterials = await getRawMaterials(nav_routes.params.user.brandId);
             setData(rawMaterials)
+            var dailyModel = {
+                branchId: nav_routes.params.user.branchId,
+                date: new Date(),
+                qty: 0,
+                rawMaterialId: 0,
+                type: "FactoryRecivingQty"
+            };
+            const res_dailyOperations = await GetDailyOperations(dailyModel);
+            console.log(res_dailyOperations)
+            setDailyOperations(res_dailyOperations)
+            setList(res_dailyOperations)
+            console.log(listOfData.length, "lengggth")
+            setLoading(false)
+        }
+        setLoading(true);
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        async function fetchData() {
+            const nav_routes = navigation.getState().routes[0];
+            if (nav_routes) {
+                setUser(nav_routes.params.user)
+            }
+            // const rawMaterials = await getRawMaterials(user.brandId);
+            // setData(rawMaterials)
             var dailyModel = {
                 branchId: user.branchId,
                 date: new Date(),
@@ -64,7 +90,7 @@ export const FactoryScreen = ({ navigation }) => {
         };
         console.log(dailyModel, "sss")
         const response = await AddDailyOperation(dailyModel);
-        console.log(response)
+        console.log(response, "reached")
         setModalVisibilty(false)
     }
     const wait = (timeout) => {
@@ -87,7 +113,7 @@ export const FactoryScreen = ({ navigation }) => {
                     Add factory receiving
                 </Button>
             </View>
-            <View>
+            {isLoading ? (<ActivityIndicator animating color={"#F4891F"} size={"large"} />) : (<View>
                 <List
                     listOfData={listOfData}
                     Header={"The factory recieving quantities for this month"}
@@ -99,7 +125,7 @@ export const FactoryScreen = ({ navigation }) => {
                         />
                     }
                 />
-            </View>
+            </View>)}
         </SafeAreaView >
     )
 

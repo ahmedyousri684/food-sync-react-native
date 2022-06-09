@@ -27,31 +27,72 @@ export const TransferScreen = ({ navigation }) => {
     const [fetchType, setFetchType] = useState("TrsIn");
     const [modalVisibilty, setModalVisibilty] = useState(false)
 
-    useEffect(() => {
-        async function fetchData() {
-            const nav_routes = navigation.getState().routes[0];
-            if (nav_routes) {
-                setUser(nav_routes.params.user)
-            }
-            const rawMaterials = await getRawMaterials(user.brandId);
-            setData(rawMaterials)
-            var dailyModel = {
-                branchId: user.branchId,
-                date: new Date(),
-                qty: 0,
-                rawMaterialId: 0,
-                type: fetchType
-            };
-            const res_dailyOperations = await GetDailyOperations(dailyModel);
-            console.log(res_dailyOperations)
-            setDailyOperations(res_dailyOperations)
-            setList(res_dailyOperations)
-            console.log(listOfData.length, "lengggth")
-            setLoading(false)
+    useEffect(async () => {
+        setLoading(true)
+        const nav_routes = navigation.getState().routes[0];
+        if (nav_routes) {
+            setUser(nav_routes.params.user)
         }
-        setLoading(true);
-        fetchData();
+        const rawMaterials = await getRawMaterials(nav_routes.params.user.brandId);
+        setData(rawMaterials)
+        var dailyModel = {
+            branchId: nav_routes.params.user.branchId,
+            date: new Date(),
+            qty: 0,
+            rawMaterialId: 0,
+            type: fetchType
+        };
+        const res_dailyOperations = await GetDailyOperations(dailyModel);
+        console.log(res_dailyOperations)
+        setDailyOperations(res_dailyOperations)
+        setList(res_dailyOperations)
+        console.log(listOfData.length, "lengggth")
+        setLoading(false)
+    }, []);
+
+    useEffect(async () => {
+        setLoading(true)
+        // const nav_routes = navigation.getState().routes[0];
+        // if (nav_routes) {
+        //     setUser(nav_routes.params.user)
+        // }
+        // const rawMaterials = await getRawMaterials(user.brandId);
+        // setData(rawMaterials)
+        var dailyModel = {
+            branchId: user.branchId,
+            date: new Date(),
+            qty: 0,
+            rawMaterialId: 0,
+            type: fetchType
+        };
+        const res_dailyOperations = await GetDailyOperations(dailyModel);
+        console.log(res_dailyOperations)
+        setDailyOperations(res_dailyOperations)
+        setList(res_dailyOperations)
+        console.log(listOfData.length, "lengggth")
+        setLoading(false)
     }, [fetchType]);
+
+    useEffect(async () => {
+        // const nav_routes = navigation.getState().routes[0];
+        // if (nav_routes) {
+        //     setUser(nav_routes.params.user)
+        // }
+        // const rawMaterials = await getRawMaterials(user.brandId);
+        // setData(rawMaterials)
+        var dailyModel = {
+            branchId: user.branchId,
+            date: new Date(),
+            qty: 0,
+            rawMaterialId: 0,
+            type: fetchType
+        };
+        const res_dailyOperations = await GetDailyOperations(dailyModel);
+        console.log(res_dailyOperations)
+        setDailyOperations(res_dailyOperations)
+        setList(res_dailyOperations)
+        console.log(listOfData.length, "lengggth")
+    }, [refreshing]);
 
 
     const onSubmit = async (selectedValue, quantity, sub_date, type) => {
@@ -111,7 +152,7 @@ export const TransferScreen = ({ navigation }) => {
                     <Select.Item label="Transfer OUT" value="TrsOut" />
                 </Select>
             </View>
-            <View>
+            {isLoading ? (<ActivityIndicator animating color={"#F4891F"} size={"large"} />) : (<View>
                 <List
                     listOfData={listOfData}
                     Header={"The transfering quantities for this month"}
@@ -123,7 +164,7 @@ export const TransferScreen = ({ navigation }) => {
                         />
                     }
                 />
-            </View>
+            </View>)}
         </View >
     )
 

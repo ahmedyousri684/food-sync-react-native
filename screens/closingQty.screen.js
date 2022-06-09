@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { Form, List } from "../components"
 import { Button, View, Text } from "native-base"
-import { StyleSheet, Dimensions } from "react-native"
-import { getRawMaterials } from "../services"
+import { StyleSheet, Dimensions, RefreshControl, ActivityIndicator } from "react-native"
+import { getRawMaterials, AddOpeningClosing, GetOpenningClosing } from "../services"
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
@@ -14,29 +14,131 @@ export const ClosingQtyScreen = ({ navigation }) => {
         "name": "Test3",
         "unit": "gm",
     }]);
-    const [listOfData, setList] = useState([])
+    const [user, setUser] = useState({});
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [listOfData, setList] = useState([]);
     const [selectedMaterial, setSelectedMaterial] = useState("");
     const [selectedQty, setSelectedQty] = useState();
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState("");
     const [modalVisibilty, setModalVisibilty] = useState(false)
+    const [openingClosing, setOpeningClosing] = useState([]);
 
-    useEffect(() => {
-        async function fetchData() {
-            const rawMaterials = await getRawMaterials(3)
-            setData(rawMaterials)
+
+    const monthSpliter = (month) => {
+        switch (month) {
+            case 12:
+                return "Jan"
+            case 1:
+                return "Feb"
+            case 2:
+                return "Mar"
+            case 3:
+                return "Apr"
+            case 4:
+                return "May"
+            case 5:
+                return "Jun"
+            case 6:
+                return "Jul"
+            case 7:
+                return "Aug"
+            case 8:
+                return "Sep"
+            case 9:
+                return "Oct"
+            case 10:
+                return "Nov"
+            case 11:
+                return "Dec"
+
         }
+    }
+
+    useEffect(async () => {
         setLoading(true);
-        fetchData();
+        const nav_routes = navigation.getState().routes[0];
+        if (nav_routes) {
+            setUser(nav_routes.params.user)
+            console.log(nav_routes.params.user, "userRoutes")
+        }
+        console.log(user, "userr", isLoading)
+        const rawMaterials = await getRawMaterials(nav_routes.params.user.brandId);
+        console.log(rawMaterials, "RawMaterialll")
+        setData(rawMaterials)
+        var openingClosingModel = {
+            branchId: nav_routes.params.user.branchId,
+            month: monthSpliter(new Date().getMonth()),
+            qty: 0,
+            rawMaterialId: 0,
+            type: "ClosingQty"
+        };
+        const res_OpeingClosing = await GetOpenningClosing(openingClosingModel);
+        console.log(res_OpeingClosing, "resss")
+        setOpeningClosing(res_OpeingClosing)
+        setList(res_OpeingClosing)
+        console.log(listOfData.length, "lengggthh")
+        setLoading(false)
     }, []);
 
+    useEffect(async () => {
+        //setLoading(true);
+        const nav_routes = navigation.getState().routes[0];
+        if (nav_routes) {
+            setUser(nav_routes.params.user)
+            console.log(nav_routes.params.user, "userRoutes")
+        }
+        console.log(user, "userr", isLoading)
+        // const rawMaterials = await getRawMaterials(nav_routes.params.user.brandId);
+        // console.log(rawMaterials, "RawMaterialll")
+        // setData(rawMaterials)
+        var openingClosingModel = {
+            branchId: nav_routes.params.user.branchId,
+            month: monthSpliter(new Date().getMonth()),
+            qty: 0,
+            rawMaterialId: 0,
+            type: "ClosingQty"
+        };
+        const res_OpeingClosing = await GetOpenningClosing(openingClosingModel);
+        console.log(res_OpeingClosing, "resss")
+        setOpeningClosing(res_OpeingClosing)
+        setList(res_OpeingClosing)
+        console.log(listOfData.length, "lengggthh")
+        setLoading(false)
+    }, [refreshing]);
 
-    const onSubmit = (selectedValue, quantity, date) => {
-        console.log(selectedValue, quantity, date, "sss")
+
+    const onSubmit = async (selectedValue, quantity, sub_date) => {
         setSelectedMaterial(selectedValue);
         setSelectedQty(quantity);
-        setDate(date);
+        //setDate(date);
+        console.log("dattteeee", sub_date, sub_date.getMonth())
+        var openingClosingModel = {
+            branchId: user.branchId,
+            month: monthSpliter(sub_date.getMonth()),
+            qty: quantity,
+            rawMaterialId: selectedValue,
+            type: "ClosingQty"
+        };
+        // var dailyModel = {
+        //     branchId: user.branchId,
+        //     date: sub_date.,
+        //     qty: quantity,
+        //     rawMaterialId: selectedValue,
+        //     type: "FactoryRecivingQty"
+        // };
+        console.log(openingClosingModel, "sss")
+        const response = await AddOpeningClosing(openingClosingModel);
+        console.log(response)
         setModalVisibilty(false)
     }
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
+    console.log(listOfData, "listOfData")
     return (
         <View>
             <Form
@@ -50,13 +152,19 @@ export const ClosingQtyScreen = ({ navigation }) => {
                     Add closing quantity
                 </Button>
             </View>
-            <View>
+            {isLoading ? (<ActivityIndicator animating color={"#F4891F"} size={"large"} />) : (<View>
                 <List
                     listOfData={listOfData}
                     Header={"The Closing Quantities for this month"}
                     description={"Please select Closing quantites for your raw material for this month"}
+                    refresh_control={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
                 />
-            </View>
+            </View>)}
         </View >
     )
 

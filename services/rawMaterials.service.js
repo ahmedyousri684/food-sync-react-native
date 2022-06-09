@@ -2,12 +2,11 @@ import API from "./APIs";
 
 export async function getRawMaterials(brandId) {
     try {
-        const response = await fetch(`${API.GET_RAW_MATERIALS}/3`, {
+        const response = await fetch(`${API.GET_RAW_MATERIALS}/${brandId}`, {
             method: "get",
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Content-type": "application/json"
-
             },
         });
         const json = await response.json();
